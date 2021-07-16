@@ -33,4 +33,7 @@ fclean		:	clean
 				@$(RM) $(NAME)
 
 re			:	fclean all
+
+run			:	re
+				./philo 5 800 200 200
 	
