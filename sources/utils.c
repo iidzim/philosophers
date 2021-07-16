@@ -55,10 +55,10 @@ int	ft_isdigit(char	*s)
 	return (1);
 }
 
-int gettime()
+long	gettime()
 {
 	struct	timeval current_time;
-	int		time;
+	long	time;
 
 	gettimeofday(&current_time, NULL);
 	// printf("seconds = %ld - microseconds = %d\n", current_time.tv_sec, current_time.tv_usec);

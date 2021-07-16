@@ -12,7 +12,7 @@
 
 NAME		=	philo
 
-SRCS		=	sources/main.c\
+SRCS		=	sources/philo.c\
 				sources/utils.c
 
 OBJS		=	${SRCS:.c=.o}

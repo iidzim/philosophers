@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/07 11:49:52 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/13 13:01:21 by iidzim           ###   ########.fr       */
+/*   Created: 2021/07/16 19:39:45 by iidzim            #+#    #+#             */
+/*   Updated: 2021/07/16 19:45:09 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
-int	valid_args(char **argv)
-{
-	int	i;
-
-	i = 1;
-	while (argv[i])
-	{
-		if (!ft_isdigit(argv[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	init_data(t_data *d, char **argv)
 {
@@ -63,50 +49,16 @@ int	init_mutex(t_data *data)
 	return (0);
 }
 
-void	*start_routine(void *philo)
-{
-	t_philo *p;
-
-	p = (t_philo *)philo;
-	while (1)
-	{
-		//?
-	}
-	return NULL;
-}
-
-void	create_philo(t_data *d)
+int	valid_args(char **argv)
 {
 	int	i;
-	t_philo	*philo;
 
-	philo = malloc(sizeof(t_philo) * d->nbr_philo);
-	i = -1;
-	while (++i < d->nbr_philo)
+	i = 1;
+	while (argv[i])
 	{
-		philo[i].id = i;
-		philo[i].data = d;
-		printf("time to die = %d\n", philo[i].data->time_to_die);
-		pthread_create(&philo[i].id_thread, NULL, start_routine, &philo[i]);
+		if (!ft_isdigit(argv[i]))
+			return (0);
+		i++;
 	}
-}
-
-int	main(int argc, char **argv)
-{
-	t_data	d;
-
-	gettime();
-	if ((argc == 5 || argc == 6) && valid_args(argv))
-	{
-		if (!init_data(&d, argv) && !init_mutex(&d))
-		{
-			create_philo(&d);
-	}
-	else
-	{
-		printf("usage : number_of_philosophers time_to_die time_to_eat\
-	time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
-		return (1);
-	}
-	return (0);
+	return (1);
 }
