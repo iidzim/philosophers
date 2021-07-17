@@ -6,14 +6,17 @@
 #    By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:16:24 by iidzim            #+#    #+#              #
-#    Updated: 2021/07/13 11:26:35 by iidzim           ###   ########.fr        #
+#    Updated: 2021/07/17 11:43:49 by iidzim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 
 SRCS		=	sources/philo.c\
-				sources/utils.c
+				sources/init.c\
+				sources/to_do.c\
+				sources/utils.c\
+				sources/release.c
 
 OBJS		=	${SRCS:.c=.o}
 

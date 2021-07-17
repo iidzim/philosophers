@@ -6,11 +6,11 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 19:45:38 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/16 19:47:09 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/07/17 11:43:03 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	destroy_mutex(t_data *data)
 {
@@ -20,10 +20,11 @@ int	destroy_mutex(t_data *data)
 	while (++i < data->nbr_philo)
 		pthread_mutex_destroy(&(data->forks[i]));
 	pthread_mutex_destroy(&(data->lock));
+	return (0);
 }
 
 int	free_all(t_philo *philo)
 {
-	
+	(void)philo;
 	return (0);
 }

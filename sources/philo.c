@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 11:49:52 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/16 19:50:37 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/07/17 11:44:31 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,12 @@ void	*start_routine(void *philo)
 	p = (t_philo *)philo;
 	while (1)
 	{
-		//? get_forks left & right
 		get_forks(philo);
-		//? lock mutex
 		philo_eat(philo);
 		philo_sleep(philo);
 		philo_think(philo);
-		//? eat sleep think repeat
-		//? print state
-		//? unlock mutex
-		//! exit if philosopher died
+		if (stop_simulation(philo))
+			break;
 	}
 	return NULL;
 }
@@ -44,8 +40,8 @@ void	create_philo(t_data *data)
 	{
 		philo[i].id = i;
 		philo[i].data = data;
-		pthread_create(&philo[i].id_thread, NULL, start_routine, &philo[i]);
-		pthread_join(&philo[i].id_thread, NULL);
+		pthread_create(&(philo[i].id_thread), NULL, start_routine, &philo[i]);
+		pthread_join(philo[i].id_thread, NULL);
 	}
 }
 
@@ -59,7 +55,7 @@ int	main(int argc, char **argv)
 		if (!init_data(&data, argv) && !init_mutex(&data))
 		{
 			create_philo(&data);
-			//
+			
 		}
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 11:05:10 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/16 19:49:07 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/07/17 11:37:42 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,18 @@ int	init_data(t_data *d, char **argv);
 int	init_mutex(t_data *data);
 int	valid_args(char **argv);
 
+/*
+** to_do.c
+*/
+int	get_forks(t_philo *philo);
+int philo_eat(t_philo *philo);
+int philo_sleep(t_philo *philo);
+int philo_think(t_philo *philo);
+int	stop_simulation(t_philo *p);
+
+/*
+** release.c
+*/
+int	destroy_mutex(t_data *data);
 
 #endif

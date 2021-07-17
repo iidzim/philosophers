@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 19:39:45 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/16 19:45:09 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/07/17 11:50:18 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	init_data(t_data *d, char **argv)
 {
-	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60 || ft_atoi(argv[4]) < 60)
-	{
-		printf("Error: Do not test with time_to_die or time_to_eat or time_to_sleep under 60 ms\n");
-		return (EXIT_FAILURE);
-	}
 	d->nbr_philo = ft_atoi(argv[1]);
 	if (d->nbr_philo == 0)
 	{
 		printf("Error: must be at least one philosopher to start\n");
+		return (EXIT_FAILURE);
+	}
+	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60 || ft_atoi(argv[4]) < 60)
+	{
+		printf("Error: Do not test with time_to_die or time_to_eat or time_to_sleep under 60 ms\n");
 		return (EXIT_FAILURE);
 	}
 	d->time_to_die = ft_atoi(argv[2]);
@@ -34,6 +34,8 @@ int	init_data(t_data *d, char **argv)
 		if (d->nbr_must_eat_philo == 0)
 			return (EXIT_FAILURE);
 	}
+	printf("number_of_philosophers = %d\ntime_to_die = %d\n", d->nbr_philo, d->time_to_die);
+	printf("time_to_eat = %d\ntime_to_sleep = %d\n", )
 	return (0);
 }
 
