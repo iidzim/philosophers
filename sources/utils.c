@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 10:41:20 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/13 11:15:31 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/11 18:21:15 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,22 @@ int	ft_isdigit(char	*s)
 	return (1);
 }
 
-long	gettime()
+unsigned long long	gettime()
 {
 	struct	timeval current_time;
-	long	time;
+	unsigned long long	time;
 
+	
 	gettimeofday(&current_time, NULL);
 	// printf("seconds = %ld - microseconds = %d\n", current_time.tv_sec, current_time.tv_usec);
-	time = current_time.tv_sec * 1000000 + current_time.tv_usec;
-	// printf("time >> %d microseconds\n", time);
+	time = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
+	// printf("time >> %llu milliseconds\n", time);
+	return (time);
+}
+
+int	ft_usleep(int time)
+{
+	// printf("time = %d\n", time);
+	usleep(time);
 	return (0);
 }

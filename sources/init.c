@@ -6,37 +6,40 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 19:39:45 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/17 11:50:18 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/11 16:14:52 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	init_data(t_data *d, char **argv)
+int	init_data(t_data *d, char **av)
 {
-	d->nbr_philo = ft_atoi(argv[1]);
+	d->nbr_philo = ft_atoi(av[1]);
 	if (d->nbr_philo == 0)
 	{
-		printf("Error: must be at least one philosopher to start\n");
+		printf("Error:\nmust be at least one philosopher to start\n");
 		return (EXIT_FAILURE);
 	}
-	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60 || ft_atoi(argv[4]) < 60)
+	if (ft_atoi(av[2]) < 60 || ft_atoi(av[3]) < 60 || ft_atoi(av[4]) < 60)
 	{
-		printf("Error: Do not test with time_to_die or time_to_eat or time_to_sleep under 60 ms\n");
+		printf("Error:\nDo not test with value under 60 ms\n");
 		return (EXIT_FAILURE);
 	}
-	d->time_to_die = ft_atoi(argv[2]);
-	d->time_to_eat = ft_atoi(argv[3]);
-	d->time_to_sleep = ft_atoi(argv[4]);
-	if (argv[5])
+	d->time_to_die = ft_atoi(av[2]);
+	d->time_to_eat = ft_atoi(av[3]);
+	d->time_to_sleep = ft_atoi(av[4]);
+	if (av[5])
 	{
-		d->nbr_must_eat_philo = ft_atoi(argv[5]);
+		d->nbr_must_eat_philo = ft_atoi(av[5]);
 		if (d->nbr_must_eat_philo == 0)
 			return (EXIT_FAILURE);
 	}
-	printf("number_of_philosophers = %d\ntime_to_die = %d\n", d->nbr_philo, d->time_to_die);
-	printf("time_to_eat = %d\ntime_to_sleep = %d\n", )
-	return (0);
+	else
+		d->nbr_must_eat_philo = 2147483647;
+	// printf("number_of_philosophers = %d\ntime_to_die = %d\n", d->nbr_philo, d->time_to_die);
+	// printf("time_to_eat = %d\ntime_to_sleep = %d\n", d->time_to_eat, d->time_to_sleep);
+	// printf("nbr time must eat = %d\n", d->nbr_must_eat_philo);
+	return (EXIT_SUCCESS);
 }
 
 int	init_mutex(t_data *data)

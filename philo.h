@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 11:05:10 by iidzim            #+#    #+#             */
-/*   Updated: 2021/07/17 11:37:42 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/11 18:06:14 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,19 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nbr_must_eat_philo;
-	long			time;
+	unsigned long long			time;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	*forks;
 }					t_data;
 
 typedef struct s_philo
 {
-	int			id;
-	pthread_t	id_thread;
-	t_data		*data;
-	int			last_time_eat;
-	int			nbr_time_eat;
+	int					id;
+	pthread_t			id_thread;
+	unsigned long long	time;
+	t_data				*data;
+	int					last_time_eat;
+	int					nbr_time_eat;
 }				t_philo;
 
 /*
@@ -45,7 +46,8 @@ typedef struct s_philo
 */
 int		ft_atoi(const char *str);
 int		ft_isdigit(char	*s);
-long	gettime();
+unsigned long long	gettime();
+int		ft_usleep(int time);
 
 /*
 ** init.c
@@ -59,6 +61,7 @@ int	valid_args(char **argv);
 */
 int	get_forks(t_philo *philo);
 int philo_eat(t_philo *philo);
+int	free_forks(t_philo *p);
 int philo_sleep(t_philo *philo);
 int philo_think(t_philo *philo);
 int	stop_simulation(t_philo *p);
