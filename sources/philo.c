@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 11:49:52 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/11 18:08:23 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:19:04 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,12 @@
 void	*start_routine(void *philo)
 {
 	t_philo *p;
-	int		i;
 
 	p = (t_philo *)philo;
 	while (1)
 	{
-		// printf("***[%llu]\n", gettime() - p->time);
-		i = get_forks(p);
+		get_forks(p);
 		philo_eat(p);
-		printf("done eating\n");
-		free_forks(p);
 		philo_sleep(p);
 		philo_think(p);
 		if (stop_simulation(p))
@@ -45,13 +41,18 @@ int	create_philo(t_data *data)
 		philo[i].time = gettime();
 		philo[i].id = i;
 		philo[i].data = data;
+		philo[i].nbr_time_eat = 0;
 		if (pthread_create(&(philo[i].id_thread), NULL, start_routine, &philo[i].id) == -1)
 		{
 			perror("Error:");
 			return (EXIT_FAILURE);
 		}
-		usleep(100);
-		// pthread_join(philo[i].id_thread, NULL);
+	}
+	i = -1;
+	while (++i < data->nbr_philo)
+	{
+		pthread_join(philo[i].id_thread, NULL);//!useless
+		// ? while 1 loop -> stop simulation
 	}
 	return (EXIT_SUCCESS);
 }
@@ -73,3 +74,10 @@ int	main(int argc, char **argv)
 		time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 	return (1);
 }
+
+
+//* print lock
+//? print msg + lock mutex
+//? if a philo die -lock_mutex- don't unlock & exit
+
+//* fix ft_usleep

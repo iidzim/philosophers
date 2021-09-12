@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 11:05:10 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/11 18:06:14 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:29:01 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+
+# define EAT 0
+# define SLEEP 1
+# define THINK 2
+# define DIED 3
+
 
 typedef struct s_data
 {
@@ -48,6 +54,7 @@ int		ft_atoi(const char *str);
 int		ft_isdigit(char	*s);
 unsigned long long	gettime();
 int		ft_usleep(int time);
+int	print_state(t_philo *p, int i);
 
 /*
 ** init.c
@@ -61,7 +68,6 @@ int	valid_args(char **argv);
 */
 int	get_forks(t_philo *philo);
 int philo_eat(t_philo *philo);
-int	free_forks(t_philo *p);
 int philo_sleep(t_philo *philo);
 int philo_think(t_philo *philo);
 int	stop_simulation(t_philo *p);

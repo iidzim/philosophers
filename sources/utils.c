@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 10:41:20 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/11 18:21:15 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/12 18:26:00 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,41 @@ unsigned long long	gettime()
 
 	
 	gettimeofday(&current_time, NULL);
-	// printf("seconds = %ld - microseconds = %d\n", current_time.tv_sec, current_time.tv_usec);
 	time = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
-	// printf("time >> %llu milliseconds\n", time);
 	return (time);
 }
 
 int	ft_usleep(int time)
 {
-	// printf("time = %d\n", time);
-	usleep(time);
+	// unsigned long long curr_time;
+	// unsigned long long time_to_sleep;
+
+	// curr_time = gettime();
+	// time_to_sleep = time * 1000 + curr_time;
+	// while (time_to_sleep < curr_time)
+	// {
+	// 	usleep(10);
+	// 	curr_time = gettime();
+	// }
+	// return (0);
+	usleep(time * 1000);
+	return (0);
+}
+
+int	print_state(t_philo *p, int i)
+{
+	pthread_mutex_lock(&(p->data->lock));
+	if (i == 0)
+		printf("%llu\t%d is eating\n", gettime() - p->time, p->id);
+	else if (i == 1)
+		printf("%llu\t%d is sleeping\n", gettime()- p->time, p->id);
+	else if (i == 2)
+		printf("%llu\t%d is thinking\n", gettime() - p->time, p->id);
+	else
+	{
+		printf("%llu\t%d died\n", gettime() - p->time, p->id);
+		return (1);
+	}
+	pthread_mutex_unlock(&(p->data->lock));
 	return (0);
 }
