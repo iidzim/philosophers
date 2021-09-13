@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 10:41:20 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/12 18:26:00 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/13 18:08:05 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ unsigned long long	gettime()
 	struct	timeval current_time;
 	unsigned long long	time;
 
-	
 	gettimeofday(&current_time, NULL);
 	time = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
 	return (time);
@@ -68,18 +67,11 @@ unsigned long long	gettime()
 
 int	ft_usleep(int time)
 {
-	// unsigned long long curr_time;
-	// unsigned long long time_to_sleep;
+	unsigned long long curr_time;
 
-	// curr_time = gettime();
-	// time_to_sleep = time * 1000 + curr_time;
-	// while (time_to_sleep < curr_time)
-	// {
-	// 	usleep(10);
-	// 	curr_time = gettime();
-	// }
-	// return (0);
-	usleep(time * 1000);
+	curr_time = gettime();
+	while ((int)(gettime() - curr_time) < time)
+		usleep(10);
 	return (0);
 }
 

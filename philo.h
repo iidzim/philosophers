@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 11:05:10 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/12 18:29:01 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/13 17:58:14 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define EAT 0
 # define SLEEP 1
 # define THINK 2
-# define DIED 3
+# define DEAD 3
 
 
 typedef struct s_data
@@ -50,11 +50,11 @@ typedef struct s_philo
 /*
 ** utils.c
 */
-int		ft_atoi(const char *str);
-int		ft_isdigit(char	*s);
+int					ft_atoi(const char *str);
+int					ft_isdigit(char	*s);
 unsigned long long	gettime();
-int		ft_usleep(int time);
-int	print_state(t_philo *p, int i);
+int					ft_usleep(int time);
+int					print_state(t_philo *p, int i);
 
 /*
 ** init.c
@@ -66,11 +66,11 @@ int	valid_args(char **argv);
 /*
 ** to_do.c
 */
-int	get_forks(t_philo *philo);
-int philo_eat(t_philo *philo);
-int philo_sleep(t_philo *philo);
-int philo_think(t_philo *philo);
-int	stop_simulation(t_philo *p);
+void	get_forks(t_philo *philo);
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
+int		stop_simulation(t_philo *p);
 
 /*
 ** release.c

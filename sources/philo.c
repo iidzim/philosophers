@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 11:49:52 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/12 18:19:04 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/13 17:03:33 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ void	*start_routine(void *philo)
 		philo_eat(p);
 		philo_sleep(p);
 		philo_think(p);
-		if (stop_simulation(p))
-			break;
+		// if (stop_simulation(p))
+		// {
+		// 	printf("here\n");
+		// 	break;
+		// }
 	}
 	return (NULL);
 }
@@ -32,27 +35,34 @@ void	*start_routine(void *philo)
 int	create_philo(t_data *data)
 {
 	int	i;
-	t_philo	*philo;
+	t_philo	*p;
 
-	philo = malloc(sizeof(t_philo) * data->nbr_philo);
+	p = malloc(sizeof(t_philo) * data->nbr_philo);
 	i = -1;
 	while (++i < data->nbr_philo)
 	{
-		philo[i].time = gettime();
-		philo[i].id = i;
-		philo[i].data = data;
-		philo[i].nbr_time_eat = 0;
-		if (pthread_create(&(philo[i].id_thread), NULL, start_routine, &philo[i].id) == -1)
+		p[i].time = gettime();
+		p[i].id = i;
+		p[i].data = data;
+		p[i].nbr_time_eat = 0;
+		p[i].last_time_eat = gettime();
+		if (pthread_create(&(p[i].id_thread), NULL, start_routine, &p[i].id) == -1)
 		{
 			perror("Error:");
 			return (EXIT_FAILURE);
 		}
 	}
-	i = -1;
-	while (++i < data->nbr_philo)
+	// i = -1;
+	// while (++i < data->nbr_philo)
+	// {
+	// 	pthread_join(philo[i].id_thread, NULL);
+	// 	// ? while 1 loop -> stop simulation
+	// }
+	while (1)
 	{
-		pthread_join(philo[i].id_thread, NULL);//!useless
-		// ? while 1 loop -> stop simulation
+		//? check if a philo is dead
+		// if (p->data->time_to_die <= (int)(gettime() - p->last_time_eat))
+		// 	return (print_state(p, DEAD));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -74,7 +84,6 @@ int	main(int argc, char **argv)
 		time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
 	return (1);
 }
-
 
 //* print lock
 //? print msg + lock mutex
