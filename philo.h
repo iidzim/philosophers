@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 11:05:10 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/14 15:11:18 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:06:01 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define SLEEP 1
 # define THINK 2
 # define DEAD 3
+# define FORK 4
 
 typedef struct s_data
 {
@@ -43,7 +44,9 @@ typedef struct s_philo
 	t_data				*data;
 	unsigned long long	last_time_eat;
 	int					nbr_time_eat;
+	unsigned long long	time;
 	pthread_mutex_t		eat;
+	int					is_eating;
 }				t_philo;
 
 /*

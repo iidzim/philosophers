@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 19:41:25 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/14 15:18:19 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:13:46 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,41 @@ void	get_forks(t_philo *p)
 	if ((p->id % 2) == 0)
 	{
 		pthread_mutex_lock(&(p->data->forks[p->id]));
-		printf("%llu\t%d has taken a fork\n", gettime() - p->data->time, p->id);
+		print_state(p, FORK);
 		pthread_mutex_lock(&(p->data->forks[(p->id + 1) % nbr_philo]));
-		printf("%llu\t%d has taken a fork\n", gettime() - p->data->time, p->id);
+		print_state(p, FORK);
 	}
 	else
 	{
 		pthread_mutex_lock(&(p->data->forks[(p->id + 1) % nbr_philo]));
-		printf("%llu\t%d has taken a fork\n", gettime() - p->data->time, p->id);
+		print_state(p, FORK);
 		pthread_mutex_lock(&(p->data->forks[p->id]));
-		printf("%llu\t%d has taken a fork\n", gettime() - p->data->time, p->id);
+		print_state(p, FORK);
 	}
 }
 
 void	philo_eat(t_philo *p)
 {
-	// pthread_mutex_lock(&(p->eat));
+	pthread_mutex_lock(&(p->eat));
+	p->last_time_eat = gettime();
+	p->is_eating = 1;
+	p->nbr_time_eat += 1;
+	pthread_mutex_unlock(&(p->eat));
 	print_state(p, EAT);
 	ft_usleep(p->data->time_to_eat);
-	// pthread_mutex_unlock(&(p->eat));
-	p->last_time_eat = gettime();
-	p->nbr_time_eat += 1;
-	pthread_mutex_unlock(&(p->data->forks[p->id]));
-	pthread_mutex_unlock(&(p->data->forks[(p->id + 1) % p->data->nbr_philo]));
+	if (p->id % 2 == 0)
+	{
+		pthread_mutex_unlock(&(p->data->forks[p->id]));
+		pthread_mutex_unlock(&(p->data->forks[(p->id + 1) % p->data->nbr_philo]));
+	}
+	else
+	{
+		pthread_mutex_unlock(&(p->data->forks[(p->id + 1) % p->data->nbr_philo]));
+		pthread_mutex_unlock(&(p->data->forks[p->id]));
+	}
+	pthread_mutex_lock(&(p->eat));
+	p->is_eating = 0;
+	pthread_mutex_unlock(&(p->eat));
 }
 
 void	philo_sleep(t_philo *p)

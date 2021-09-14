@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 10:41:20 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/14 15:14:14 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:07:08 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,18 @@ int	print_state(t_philo *p, int i)
 {
 	pthread_mutex_lock(&(p->data->lock));
 	if (i == 0)
-		printf("%llu\t%d is eating\n", gettime() - p->data->time, p->id);
+		printf("%llu\t%d is eating\n", gettime() - p->time, p->id);
 	else if (i == 1)
-		printf("%llu\t%d is sleeping\n", gettime() - p->data->time, p->id);
+		printf("%llu\t%d is sleeping\n", gettime() - p->time, p->id);
 	else if (i == 2)
-		printf("%llu\t%d is thinking\n", gettime() - p->data->time, p->id);
-	else
+		printf("%llu\t%d is thinking\n", gettime() - p->time, p->id);
+	else if (i == 3)
 	{
-		printf("%llu\t%d died\n", gettime() - p->data->time, p->id);
+		printf("%llu\t%d died\n", gettime() - p->time, p->id);
 		return (1);
 	}
+	else
+		printf("%llu\t%d has taken a fork\n", gettime() - p->time, p->id);
 	pthread_mutex_unlock(&(p->data->lock));
 	return (0);
 }

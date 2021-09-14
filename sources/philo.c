@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 11:49:52 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/14 15:19:27 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/14 16:15:16 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*start_routine(void *philo)
 	t_philo	*p;
 
 	p = (t_philo *)philo;
+	p->time = gettime();
+	p->last_time_eat = p->time;
 	while (1)
 	{
 		get_forks(p);
@@ -30,20 +32,29 @@ void	*start_routine(void *philo)
 int	stop_simulation(t_philo *p, t_data *data)
 {
 	int	i;
+	int	flag;
 
+	flag = 0;
 	while (1)
 	{
 		i = -1;
 		while (++i < data->nbr_philo)
 		{
-			if (data->time_to_die <= (int)(gettime() - p[i].last_time_eat))
+			pthread_mutex_lock(&(p[i].eat));
+			if (p[i].is_eating == 0 && data->time_to_die <= (int)(gettime() - p[i].last_time_eat - 5))
 			{
-				// pthread_mutex_lock(&(p[i].eat));
-				// print_state(&p[i], DEAD);
-				// pthread_mutex_lock(&(p[i].eat));
-				// return (1);
 				return (print_state(&p[i], DEAD));
 			}
+			if (data->nbr_must_eat_philo != -1 && p[i].nbr_time_eat >= data->nbr_must_eat_philo)
+				flag += 1;
+			else
+				flag = 0;
+			pthread_mutex_unlock(&(p[i].eat));
+		}
+		if (flag >= data->nbr_philo)
+		{
+			pthread_mutex_lock(&(p->data->lock));
+			return (0);
 		}
 	}
 	return (0);
@@ -56,13 +67,12 @@ int	create_philo(t_data *data)
 
 	p = malloc(sizeof(t_philo) * data->nbr_philo);
 	i = -1;
-	data->time = gettime();
 	while (++i < data->nbr_philo)
 	{
 		p[i].id = i;
 		p[i].data = data;
 		p[i].nbr_time_eat = 0;
-		p[i].last_time_eat = gettime();
+		p[i].is_eating = 0;
 		pthread_mutex_init(&(p[i].eat), NULL);
 		if (pthread_create(&(p[i].id_thread), NULL, start_routine, &p[i].id)
 			== -1)
@@ -71,18 +81,20 @@ int	create_philo(t_data *data)
 			return (EXIT_FAILURE);
 		}
 	}
+	usleep(100);
 	stop_simulation(p, data);
 	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_data	*data;
 
+	data = malloc(sizeof(t_data));
 	if ((argc == 5 || argc == 6) && valid_args(argv))
 	{
-		if (!init_data(&data, argv) && !init_mutex(&data))
-			create_philo(&data);
+		if (!init_data(data, argv) && !init_mutex(data))
+			create_philo(data);
 		return (0);
 	}
 	printf("Error\nusage : number_of_philosophers time_to_die time_to_eat\
