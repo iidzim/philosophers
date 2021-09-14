@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 10:41:20 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/13 18:08:05 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/14 15:14:14 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	ft_isdigit(char	*s)
 	return (1);
 }
 
-unsigned long long	gettime()
+unsigned long long	gettime(void)
 {
-	struct	timeval current_time;
+	struct timeval		current_time;
 	unsigned long long	time;
 
 	gettimeofday(&current_time, NULL);
@@ -67,7 +67,7 @@ unsigned long long	gettime()
 
 int	ft_usleep(int time)
 {
-	unsigned long long curr_time;
+	unsigned long long	curr_time;
 
 	curr_time = gettime();
 	while ((int)(gettime() - curr_time) < time)
@@ -79,14 +79,14 @@ int	print_state(t_philo *p, int i)
 {
 	pthread_mutex_lock(&(p->data->lock));
 	if (i == 0)
-		printf("%llu\t%d is eating\n", gettime() - p->time, p->id);
+		printf("%llu\t%d is eating\n", gettime() - p->data->time, p->id);
 	else if (i == 1)
-		printf("%llu\t%d is sleeping\n", gettime()- p->time, p->id);
+		printf("%llu\t%d is sleeping\n", gettime() - p->data->time, p->id);
 	else if (i == 2)
-		printf("%llu\t%d is thinking\n", gettime() - p->time, p->id);
+		printf("%llu\t%d is thinking\n", gettime() - p->data->time, p->id);
 	else
 	{
-		printf("%llu\t%d died\n", gettime() - p->time, p->id);
+		printf("%llu\t%d died\n", gettime() - p->data->time, p->id);
 		return (1);
 	}
 	pthread_mutex_unlock(&(p->data->lock));

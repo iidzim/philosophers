@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 19:39:45 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/12 18:17:25 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/14 15:11:30 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ int	init_data(t_data *d, char **av)
 			return (EXIT_FAILURE);
 	}
 	else
-		d->nbr_must_eat_philo = 2147483647;
-	// printf("number_of_philosophers = %d\ntime_to_die = %d\n", d->nbr_philo, d->time_to_die);
-	// printf("time_to_eat = %d\ntime_to_sleep = %d\n", d->time_to_eat, d->time_to_sleep);
-	// printf("nbr time must eat = %d\n", d->nbr_must_eat_philo);
+		d->nbr_must_eat_philo = -1;
 	return (EXIT_SUCCESS);
 }
 
