@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 11:49:52 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/14 16:15:16 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/15 15:48:33 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,26 @@ int	stop_simulation(t_philo *p, t_data *data)
 	int	flag;
 
 	flag = 0;
-	while (1)
+	i = -1;
+	while (++i < data->nbr_philo)
 	{
-		i = -1;
-		while (++i < data->nbr_philo)
-		{
-			pthread_mutex_lock(&(p[i].eat));
-			if (p[i].is_eating == 0 && data->time_to_die <= (int)(gettime() - p[i].last_time_eat - 5))
-			{
-				return (print_state(&p[i], DEAD));
-			}
-			if (data->nbr_must_eat_philo != -1 && p[i].nbr_time_eat >= data->nbr_must_eat_philo)
-				flag += 1;
-			else
-				flag = 0;
-			pthread_mutex_unlock(&(p[i].eat));
-		}
-		if (flag >= data->nbr_philo)
-		{
-			pthread_mutex_lock(&(p->data->lock));
-			return (0);
-		}
+		pthread_mutex_lock(&(p[i].eat));
+		if (p[i].is_eating == 0 && data->time_to_die <= (int)(gettime()
+			- p[i].last_time_eat - 5))
+			return (print_state(&p[i], DEAD));
+		if (data->nbr_must_eat_philo != -1
+			&& p[i].nbr_time_eat >= data->nbr_must_eat_philo)
+			flag += 1;
+		else
+			flag = 0;
+		pthread_mutex_unlock(&(p[i].eat));
 	}
-	return (0);
+	if (flag >= data->nbr_philo)
+	{
+		pthread_mutex_lock(&(p->data->lock));
+		return (0);
+	}
+	return (1);
 }
 
 int	create_philo(t_data *data)
@@ -82,7 +79,8 @@ int	create_philo(t_data *data)
 		}
 	}
 	usleep(100);
-	stop_simulation(p, data);
+	while (stop_simulation(p, data))
+		;
 	return (EXIT_SUCCESS);
 }
 

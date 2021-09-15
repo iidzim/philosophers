@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 19:41:25 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/14 16:13:46 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/15 11:23:21 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	get_forks(t_philo *p)
 
 void	philo_eat(t_philo *p)
 {
+	int	n;
+
+	n = (p->id + 1) % p->data->nbr_philo;
 	pthread_mutex_lock(&(p->eat));
 	p->last_time_eat = gettime();
 	p->is_eating = 1;
@@ -45,11 +48,11 @@ void	philo_eat(t_philo *p)
 	if (p->id % 2 == 0)
 	{
 		pthread_mutex_unlock(&(p->data->forks[p->id]));
-		pthread_mutex_unlock(&(p->data->forks[(p->id + 1) % p->data->nbr_philo]));
+		pthread_mutex_unlock(&(p->data->forks[n]));
 	}
 	else
 	{
-		pthread_mutex_unlock(&(p->data->forks[(p->id + 1) % p->data->nbr_philo]));
+		pthread_mutex_unlock(&(p->data->forks[n]));
 		pthread_mutex_unlock(&(p->data->forks[p->id]));
 	}
 	pthread_mutex_lock(&(p->eat));

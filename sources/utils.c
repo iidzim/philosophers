@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 10:41:20 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/14 16:07:08 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/15 15:47:59 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ int	ft_isdigit(char	*s)
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s[i] != '\0')
 	{
-		if (s[i] < '0' && s[i] > '9')
+		if (s[i] >= '0' && s[i] <= '9')
+			i++;
+		else
 			return (0);
-		i++;
 	}
 	return (1);
 }
@@ -87,10 +88,10 @@ int	print_state(t_philo *p, int i)
 	else if (i == 3)
 	{
 		printf("%llu\t%d died\n", gettime() - p->time, p->id);
-		return (1);
+		return (0);
 	}
 	else
 		printf("%llu\t%d has taken a fork\n", gettime() - p->time, p->id);
 	pthread_mutex_unlock(&(p->data->lock));
-	return (0);
+	return (1);
 }
