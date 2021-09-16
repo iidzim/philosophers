@@ -6,7 +6,7 @@
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/07 11:49:52 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/15 15:48:33 by iidzim           ###   ########.fr       */
+/*   Updated: 2021/09/16 10:01:39 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ int	stop_simulation(t_philo *p, t_data *data)
 
 int	create_philo(t_data *data)
 {
-	int		i;
 	t_philo	*p;
+	int		i;
 
 	p = malloc(sizeof(t_philo) * data->nbr_philo);
+	if (!p)
+		return (EXIT_FAILURE);
 	i = -1;
 	while (++i < data->nbr_philo)
 	{
